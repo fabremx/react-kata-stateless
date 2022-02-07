@@ -1,0 +1,33 @@
+@import '../../shared/styles.scss';
+
+.product-summary__title {
+    @extend %medium-title
+}
+
+.product-summary__wrapper {
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+.product-summary__info {
+    display: flex;
+}
+
+.product-summary__text {
+    margin-right: 10px;
+    width: 145px;
+
+    &--bold {
+        font-weight: $bold;
+    }
+
+    &--red, &--green {
+        font-weight: $light-bold;
+    }
+    &--red {
+        color: $bg-red;
+    }
+    &--green {
+        color: $bg-green;
+    }
+}
