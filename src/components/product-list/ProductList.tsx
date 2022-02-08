@@ -1,4 +1,4 @@
-import { updateSelectedProduct } from '../../business/products/updateSelectedProduct';
+import BusinessModule from '../../business';
 import { Product } from '../../models/products';
 import ProductItem from '../product-item/ProductItem';
 import './ProductList.scss';
@@ -10,7 +10,7 @@ interface Props {
 
 function ProductList({ products, updateProducts }: Props) {
   const toggleSelectProduct = (productId: string) => {
-    const selectedProducts = updateSelectedProduct(products, productId);
+    const selectedProducts = BusinessModule.updateSelectedProduct(products, productId);
     updateProducts(selectedProducts);
   }
 

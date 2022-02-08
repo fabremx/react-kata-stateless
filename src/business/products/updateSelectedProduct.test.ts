@@ -1,5 +1,5 @@
 import { Product } from "../../models/products";
-import { updateSelectedProduct } from "./updateSelectedProduct";
+import updateSelectedProduct from "./updateSelectedProduct";
 
 const PRODUCT: Omit<Product, "selected"> = {
     id: '1',

@@ -1,6 +1,6 @@
 import { Product } from "../../models/products";
 
-export const updateSelectedProduct = (products: Product[], selectedProductId: string): Product[] => {
+const updateSelectedProduct = (products: Product[], selectedProductId: string): Product[] => {
     return products.map((product: Product) => ({
         ...product,
         selected: product.id === selectedProductId
@@ -8,3 +8,5 @@ export const updateSelectedProduct = (products: Product[], selectedProductId: st
             : product.selected
     }))
 }
+
+export default updateSelectedProduct
