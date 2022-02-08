@@ -1,4 +1,4 @@
-import { updateSelectedProduct } from '../../business/products/updateSelectedProduct';
+import BusinessModule from '../../business';
 import { Product } from '../../models/products';
 import ProductItem from '../product-item/ProductItem';
 import './ProductList.scss';
@@ -10,7 +10,7 @@ interface Props {
 
 function ProductList({ products, updateProducts }: Props) {
   const toggleSelectProduct = (productId: string) => {
-    const selectedProducts = updateSelectedProduct(products, productId);
+    const selectedProducts = BusinessModule.updateSelectedProduct(products, productId);
     updateProducts(selectedProducts);
   }
 
@@ -19,7 +19,7 @@ function ProductList({ products, updateProducts }: Props) {
       <h3 className="product-title">Products List</h3>
 
       <div className="product-list">
-        {products.map((product: Product) => (
+        {products?.map((product: Product) => (
           <ProductItem product={product} selectProduct={toggleSelectProduct} key={product.id} />
         ))}
       </div>

@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import ApiModule from '../../api';
 import ProductsPage from './ProductsPage';
 
 enum COMPONENT_ELEMENT {
@@ -18,7 +19,14 @@ const ORANGES_TEXT_NAME = 'Oranges';
 
 describe('Products Page Component', () => {
   beforeEach(() => {
-    removeCookie('products')
+    jest.spyOn(ApiModule, 'getProducts').mockResolvedValue([
+      { id: '1', name: 'Bio Banana', imageUrl: 'https://i.postimg.cc/mPRtc92k/bananes.jpg', selected: false },
+      { id: '2', name: 'Zucchini', imageUrl: 'https://i.postimg.cc/VSZ6HH90/courgettes.jpg', selected: false },
+      { id: '3', name: 'Oranges', imageUrl: 'https://i.postimg.cc/ph9TNYkG/orange.jpg', selected: false },
+      { id: '4', name: 'Tomatoes', imageUrl: 'https://i.postimg.cc/76RXzP0D/tomate.jpg', selected: false }
+    ])
+
+    jest.spyOn(ApiModule, 'updateProducts').mockResolvedValue()
   })
 
   it('should select a product when user click on it', async () => {
@@ -27,7 +35,9 @@ describe('Products Page Component', () => {
     await clickOnProductItem(ORANGES_TEXT_NAME);
 
     const orangesProductItem = await findProductItem(PRODUCT_LIST_ORDER.ORANGES)
-    expect(orangesProductItem).toHaveClass('product-item--selected')
+    await waitFor(async () => {
+      expect(orangesProductItem).toHaveClass('product-item--selected')
+    });
   });
 
   it('should display a product as selected when user click on it', async () => {
@@ -37,7 +47,9 @@ describe('Products Page Component', () => {
     await clickOnProductItem(ORANGES_TEXT_NAME);
 
     const orangesProductItem = await findProductItem(PRODUCT_LIST_ORDER.ORANGES)
-    expect(orangesProductItem).not.toHaveClass('product-item--selected')
+    await waitFor(() => {
+      expect(orangesProductItem).not.toHaveClass('product-item--selected')
+    });
   });
 
   it('should display "selected: YES" for one product when user click on it', async () => {
@@ -45,8 +57,10 @@ describe('Products Page Component', () => {
 
     await clickOnProductItem(ORANGES_TEXT_NAME);
 
-    const orangesSummary = await findProductSummary(PRODUCT_LIST_ORDER.ORANGES)
-    expect(orangesSummary).toHaveTextContent('Selected: YES')
+    await waitFor(async () => {
+      const orangesSummary = await findProductSummary(PRODUCT_LIST_ORDER.ORANGES)
+      expect(orangesSummary).toHaveTextContent('Selected: YES')
+    });
   });
 
   it('should display "selected: NO" for one product when user click on it twice', async () => {
@@ -56,7 +70,9 @@ describe('Products Page Component', () => {
     await clickOnProductItem(ORANGES_TEXT_NAME);
 
     const orangesSummary = await findProductSummary(PRODUCT_LIST_ORDER.ORANGES)
-    expect(orangesSummary).toHaveTextContent('Selected: NO')
+    await waitFor(() => {
+      expect(orangesSummary).toHaveTextContent('Selected: NO')
+    });
   });
 });
 
@@ -73,8 +89,4 @@ async function findProductItem(productPosition: PRODUCT_LIST_ORDER): Promise<HTM
 async function findProductSummary(productPosition: PRODUCT_LIST_ORDER): Promise<HTMLElement> {
   const summaryTexts = await screen.findAllByTestId('summary-info');
   return summaryTexts[productPosition]
-}
-
-function removeCookie(name: string) {
-  document.cookie = `${name}=1; expires=1 Jan 1970 00:00:00 GMT;`
 }

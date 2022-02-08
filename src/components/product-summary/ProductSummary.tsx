@@ -1,10 +1,11 @@
-import { useCookies } from 'react-cookie';
 import { Product } from '../../models/products';
 import './ProductSummary.scss';
 
-function ProductSummary() {
-  const [cookies] = useCookies(['products']);
+interface Props {
+  products: Product[]
+}
 
+function ProductSummary({ products }: Props) {
   const productSelectedClass = (isProductSelected: boolean) => {
     return isProductSelected
       ? "product-summary__text--green"
@@ -16,8 +17,8 @@ function ProductSummary() {
       <h3 className="product-summary__title">Summary</h3>
 
       <div className="product-summary__wrapper">
-        {cookies['products']?.map((product: Product) => (
-          <div className="product-summary__info" key={product.id} data-testid='summary-info'>
+        {products?.map((product: Product) => (
+          <div className="product-summary__info" key={product.id} data-testid="summary-info">
             <p className="product-summary__text">
               <span className="product-summary__text--bold">Name: </span>
               {product.name}

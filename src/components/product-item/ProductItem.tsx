@@ -12,7 +12,7 @@ function ProductItem({ product, selectProduct }: Props) {
   }
 
   return (
-    <div className={`product-item ${productSelectedClass(product)}`} onClick={() => selectProduct(product.id)} data-testid='product-item'>
+    <div className={`product-item ${productSelectedClass(product)}`} onClick={() => selectProduct(product.id)} data-testid="product-item">
       <div className="product-item__image">
         <img src={product.imageUrl} alt={product.name} />
       </div>
