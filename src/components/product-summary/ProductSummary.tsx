@@ -17,11 +17,12 @@ function ProductSummary() {
 
       <div className="product-summary__wrapper">
         {cookies['products']?.map((product: Product) => (
-          <div className="product-summary__info" key={product.id}>
+          <div className="product-summary__info" key={product.id} data-testid='summary-info'>
             <p className="product-summary__text">
               <span className="product-summary__text--bold">Name: </span>
               {product.name}
             </p>
+
             <p className="product-summary__text">
               <span className="product-summary__text--bold">Selected: </span>
               <span className={productSelectedClass(product.selected)}>{product.selected ? 'YES' : 'NO'}</span>
